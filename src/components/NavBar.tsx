@@ -4,21 +4,14 @@ import { useDispatch, useSelector } from "react-redux"
 // import { changeText } from "../store/ProductsSlice";
 import { RootState, AppDispatch } from "../store/Store"
 import { getProductsByID, getProductsFromAPI } from "../store/ProductsSlice"
+// import { addProductToCart, removeProductFromCart } from "../store/CartSlice"
 
 const NavBar = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { APIResponse, status } = useSelector(
     (state: RootState) => state.productsFromAPI
   )
-
-  useEffect(() => {
-    dispatch(getProductsFromAPI())
-    dispatch(getProductsByID(43))
-    dispatch(getProductsByID(32))
-    dispatch(getProductsByID(43))
-
-    console.log(status)
-  }, [])
+  const { cartItems } = useSelector((state: RootState) => state.cartSlice)
 
   return (
     <div className="h-28 mt-2 md:h-20 w-full md:flex-row flex justify-between flex-col text-gray-700 2xl:w-[1500px] 2xl:mx-auto">
@@ -39,7 +32,9 @@ const NavBar = () => {
             <path d="M15.045.007 9.31 0a1.965 1.965 0 0 0-1.4.585L.58 7.979a2 2 0 0 0 0 2.805l6.573 6.631a1.956 1.956 0 0 0 1.4.585 1.965 1.965 0 0 0 1.4-.585l7.409-7.477A2 2 0 0 0 18 8.479v-5.5A2.972 2.972 0 0 0 15.045.007Zm-2.452 6.438a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
           </svg>
           <h3 className="my-auto text-4xl text-primary font-bold">
-            {status === "succeeded" && APIResponse.products[0].brand}
+            {status === "succeeded" &&
+              APIResponse.products.length > 0 &&
+              APIResponse.products[0].brand}
           </h3>
         </div>
 
@@ -140,7 +135,10 @@ const NavBar = () => {
         </div>
         <div className="w-0.5 bg-gray-300 h-2/4 my-auto"></div>
 
-        <div className="flex">
+        <div className="flex relative">
+          <div className="absolute top-5 left-2 bg-primary text-sm text-white px-2  rounded-full ">
+            <p>{cartItems.length > 0 && cartItems.length}</p>
+          </div>
           <svg
             className="w-7 h-7 text-primary my-auto"
             aria-hidden="true"
@@ -156,14 +154,7 @@ const NavBar = () => {
               d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"
             />
           </svg>
-          <p
-            className="my-auto text-lg font-semibold"
-            onClick={() => {
-              dispatch(getProductsFromAPI())
-            }}
-          >
-            Cart
-          </p>
+          <p className="my-auto text-lg font-semibold">Cart</p>
         </div>
       </div>
     </div>

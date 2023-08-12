@@ -1,31 +1,6 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import axios from "axios";
-
-type UsersState = {
-  APIResponse: DummyJSONResponse;
-  status: "idle" | "pending" | "succeeded" | "failed";
-}
-
-type Product = {
-  id: number;
-  title: string;
-  description: string;
-  brand: string;
-  category: string;
-  discountPercentage: number;
-  images: Array<string>;
-  price: number;
-  rating: number;
-  stock: number;
-  thumbnail: string;
-}
-
-type DummyJSONResponse = {
-  products: Array<Product>;
-  limit: number;
-  skip: number;
-  total: number;
-}
+import { DummyJSONResponse, ProductsFromAPIParams, UsersState } from "../types/types";
 
 const initialState: UsersState = {
   APIResponse: {
@@ -41,18 +16,27 @@ const productsDataKey = 'productsData'
 
 export const getProductsFromAPI = createAsyncThunk(
   "products/productsFromAPI",
-  async (_, thunkAPI) => {
+  async ({searchValue = ''  , findByCategory = false , category = '' } : ProductsFromAPIParams, thunkAPI) => {
 
     try {
+
+      const url = findByCategory ? `https://dummyjson.com/products/category/${category}` : searchValue !== '' ? `https://dummyjson.com/products/search?q=${searchValue}` : `https://dummyjson.com/products/`
+
+      console.log(url)  
+
 
       const cacheProductsData = localStorage.getItem(productsDataKey)
 
       if(cacheProductsData !== null){
-        return JSON.parse(cacheProductsData) as DummyJSONResponse
+        const data = JSON.parse(cacheProductsData) as DummyJSONResponse
+        // Only return cache if there are a min number of products to display else fetch new ones fix later...
+        if(data.products.length >= 25){
+          return data 
+        }
       }
 
       console.log("Fetching Products")
-      const response = await axios(`https://dummyjson.com/products`);
+      const response = await axios(url);
       localStorage.setItem(productsDataKey,JSON.stringify(response.data))
       return response.data as DummyJSONResponse;
 
@@ -105,33 +89,35 @@ const productsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+
     builder
-      .addCase(getProductsFromAPI.pending, (state) => {
-        state.status = "pending";
-      })
       .addCase(getProductsFromAPI.fulfilled, (state, action) => {
         state.APIResponse = action.payload;
         state.status = "succeeded";
-      })
-      .addCase(getProductsFromAPI.rejected,(state)=>{
-        state.status = 'failed'
-      })
-      .addCase(getProductsByID.pending, (state) => {
-        state.status = "pending";
       })
       .addCase(getProductsByID.fulfilled, (state, action) => {
         state.APIResponse.products.push(action.payload)
         state.status = "succeeded";
       })
-      .addCase(getProductsByID.rejected,(state)=>{
-        state.APIResponse.products = []
-        state.status = 'failed'
-      })
-      
+
+    builder
+    .addMatcher(isAnyOf(
+      getProductsFromAPI.pending,
+      getProductsByID.pending
+    ),(state) => {
+      state.status = "pending";
+    })
+
+    builder
+    .addMatcher(isAnyOf(
+      getProductsFromAPI.rejected,
+      getProductsByID.rejected
+    ),(state) => {
+      state.status = "failed";
+    })
   },
   
 });
 
 export default productsSlice;
 
-export const { getProductsByCategory } = productsSlice.actions;
