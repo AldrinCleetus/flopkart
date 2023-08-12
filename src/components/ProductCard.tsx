@@ -27,7 +27,7 @@ const ProductCard = ({ image }: { image: string }) => {
             <span className="text-sm my-auto  text-gray-900 line-through">
               $799
             </span>
-            <span className="text-sm my-auto  font-bold text-gray-900 ">
+            <span className="text-sm my-auto  font-bold text-primary ">
               24% off
             </span>
           </div>
@@ -53,7 +53,7 @@ const ProductCard = ({ image }: { image: string }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

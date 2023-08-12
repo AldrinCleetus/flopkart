@@ -1,35 +1,9 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// type test = {
-//   ota: string;
-// };
-
-// const initialState: test = {
-//   ota: "",
-// };
-
-// const testSlice = createSlice({
-//   name: "test",
-//   initialState,
-//   reducers: {
-//     changeText: (state, action: PayloadAction<string>) => {
-//       console.log("something!!", action.payload);
-
-//       state.ota = action.payload;
-//     },
-//     reset: (state) => {
-//       state = initialState;
-//     },
-//   },
-// });
-
-// export const { changeText, reset } = testSlice.actions;
-
-// export default testSlice;
-interface UsersState {
-  entities: DummyJSONResponse;
-  loading: "idle" | "pending" | "succeeded" | "failed";
+type UsersState = {
+  APIResponse: DummyJSONResponse;
+  status: "idle" | "pending" | "succeeded" | "failed";
 }
 
 type Product = {
@@ -44,31 +18,45 @@ type Product = {
   rating: number;
   stock: number;
   thumbnail: string;
-};
+}
 
 type DummyJSONResponse = {
   products: Array<Product>;
   limit: number;
   skip: number;
   total: number;
-};
+}
 
-const initialState = {
-  entities: {},
-  loading: "idle",
-} as UsersState;
+const initialState: UsersState = {
+  APIResponse: {
+    products: [],
+    limit: 0,
+    skip: 0,
+    total: 0,
+  },
+  status: "idle",
+}
+
+const productsDataKey = 'productsData'
 
 export const getProductsFromAPI = createAsyncThunk(
   "products/productsFromAPI",
-  async (name, thunkAPI) => {
+  async (_, thunkAPI) => {
+
     try {
-      console.log(name);
-      // console.log(thunkAPI);
-      // console.log(thunkAPI.getState());
-      // thunkAPI.dispatch(openModal());
+
+      const cacheProductsData = localStorage.getItem(productsDataKey)
+
+      if(cacheProductsData !== null){
+        console.log("Returning Cache")
+        return JSON.parse(cacheProductsData) as DummyJSONResponse
+      }
+
+      console.log("Fetching Data")
       const response = await axios("https://dummyjson.com/products");
-      // console.log(response);
-      return response.data;
+      localStorage.setItem(productsDataKey,JSON.stringify(response.data))
+      return response.data as DummyJSONResponse;
+
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -87,17 +75,16 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getProductsFromAPI.pending, (state, action) => {
-        console.log("productSlice 69", action.payload);
-        state.loading = "pending";
+      .addCase(getProductsFromAPI.pending, (state) => {
+        state.status = "pending";
       })
       .addCase(getProductsFromAPI.fulfilled, (state, action) => {
-        console.log("Interssting!", action.payload);
-        console.log(typeof action.payload);
-
-        state.entities = action.payload;
-        state.loading = "succeeded";
-      });
+        state.APIResponse = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(getProductsFromAPI.rejected,(state)=>{
+        state.status = 'failed'
+      })
   },
 });
 
