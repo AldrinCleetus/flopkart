@@ -1,4 +1,4 @@
-import ProductCard from "./ProductCard";
+import ProductCard from "./ProductCard"
 
 const ProductsShelf = () => {
   return (
@@ -6,7 +6,7 @@ const ProductsShelf = () => {
       <h3 className="text-2xl font-bold flex gap-2 text-text border-b-4 pb-2 border-primary">
         Best Selling <p className="text-primary">Smartphones!</p>
       </h3>
-      <div className="flex flex-wrap md:flex-nowrap  gap-4 md:justify-start md:px-2 md:flex-row my-8 md:gap-12 overflow-x-scroll py-2 justify-around">
+      <div className="flex flex-wrap md:flex-nowrap  gap-4 md:justify-start md:px-2 md:flex-row my-8 md:gap-12 overflow-scroll no-scrollbar  py-2 justify-around">
         <ProductCard
           image={
             "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmade2style.com%2Fwp-content%2Fuploads%2F2014%2F02%2Fphoto-1-2.jpg%3Fw%3D660&f=1&nofb=1&ipt=cc0b718e3732a985a24d5a6bb1bc9decaaf79873d639665a9a999477c4fef7e0&ipo=images"
@@ -54,7 +54,7 @@ const ProductsShelf = () => {
         ></ProductCard>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductsShelf;
+export default ProductsShelf

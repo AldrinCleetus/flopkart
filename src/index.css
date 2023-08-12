@@ -16,7 +16,16 @@
   -webkit-text-size-adjust: 100%;
 }
 
-.disable-scroll::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; /* make scrollbar transparent */
+@layer components {
+  @layer utilities {
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  }
 }
