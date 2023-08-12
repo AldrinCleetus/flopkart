@@ -3,7 +3,7 @@ import CartIcon from "../assets/icons/cart.svg"
 import { useDispatch, useSelector } from "react-redux"
 // import { changeText } from "../store/ProductsSlice";
 import { RootState, AppDispatch } from "../store/Store"
-import { getProductsFromAPI } from "../store/ProductsSlice"
+import { getProductsByID, getProductsFromAPI } from "../store/ProductsSlice"
 
 const NavBar = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -13,7 +13,11 @@ const NavBar = () => {
 
   useEffect(() => {
     dispatch(getProductsFromAPI())
-    console.log(APIResponse)
+    dispatch(getProductsByID(43))
+    dispatch(getProductsByID(32))
+    dispatch(getProductsByID(43))
+
+    console.log(status)
   }, [])
 
   return (
