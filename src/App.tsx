@@ -13,7 +13,7 @@ function App() {
         <Categories></Categories>
         <Carousel></Carousel>
         <ProductsShelf></ProductsShelf>
-        <ProductsShelf></ProductsShelf>
+        <ProductsShelf category="laptops" showByCategory={true}></ProductsShelf>
       </div>
     </Provider>
   )

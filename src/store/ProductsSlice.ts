@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import axios from "axios";
-import { DummyJSONResponse, ProductsFromAPIParams, UsersState } from "../types/types";
+import { DummyJSONResponse, Product, ProductsFromAPIParams, UsersState } from "../types/types";
 
 const initialState: UsersState = {
   APIResponse: {
@@ -16,27 +16,39 @@ const productsDataKey = 'productsData'
 
 export const getProductsFromAPI = createAsyncThunk(
   "products/productsFromAPI",
-  async ({searchValue = ''  , findByCategory = false , category = '' } : ProductsFromAPIParams, thunkAPI) => {
+  async ({searchValue = ''  , skip=0 , findByCategory = false , category = '' } : ProductsFromAPIParams, thunkAPI) => {
 
     try {
 
-      const url = findByCategory ? `https://dummyjson.com/products/category/${category}` : searchValue !== '' ? `https://dummyjson.com/products/search?q=${searchValue}` : `https://dummyjson.com/products/`
+      // const url = findByCategory ? `https://dummyjson.com/products/category/${category}` : searchValue !== '' ? `https://dummyjson.com/products/search?q=${searchValue}` : `https://dummyjson.com/products/`
 
-      console.log(url)  
+      let url = 'https://dummyjson.com/products';
 
-
+      if (findByCategory) 
+      {
+        url += `/category/${category}`;
+      } 
+      else if (searchValue !== '') 
+      {
+        url += `/search?q=${searchValue}`;
+      }
+      else if( skip > 0) 
+      {
+        url += `?skip=${skip}`
+      }
       const cacheProductsData = localStorage.getItem(productsDataKey)
 
       if(cacheProductsData !== null){
         const data = JSON.parse(cacheProductsData) as DummyJSONResponse
-        // Only return cache if there are a min number of products to display else fetch new ones fix later...
-        if(data.products.length >= 25){
+        // Only return cache if there are a min number of products to display else fetch new ones...fine for now
+        if(data.products.length >= skip + 30){
           return data 
         }
       }
 
-      console.log("Fetching Products")
+      console.log("Fetching Products",url)
       const response = await axios(url);
+      // replaces the existing products Data with the new one...stores 30 products....
       localStorage.setItem(productsDataKey,JSON.stringify(response.data))
       return response.data as DummyJSONResponse;
 
@@ -52,18 +64,18 @@ export const getProductsByID = createAsyncThunk(
 
     try {
 
-      const cacheProductsData = localStorage.getItem(productsDataKey)
+      // const cacheProductsData = localStorage.getItem(productsDataKey)
 
-      if(cacheProductsData !== null){
+      // if(cacheProductsData !== null){
 
-        const cachedProducts: DummyJSONResponse = JSON.parse(cacheProductsData)
-        const product = cachedProducts.products.find(product => product.id === productID)
+      //   const cachedProducts: DummyJSONResponse = JSON.parse(cacheProductsData)
+      //   const product = cachedProducts.products.find(product => product.id === productID)
 
-        if(product){
-          return product
-        }
+      //   if(product){
+      //     return product
+      //   }
 
-      }
+      // }
 
       //Fix later - Add the product to exisiting prod array else make a new object and add it to that.
       //localStorage.setItem(productsDataKey,JSON.stringify(state.APIResponse))
@@ -92,7 +104,10 @@ const productsSlice = createSlice({
 
     builder
       .addCase(getProductsFromAPI.fulfilled, (state, action) => {
-        state.APIResponse = action.payload;
+        
+        state.APIResponse.products = state.APIResponse.products.concat(action.payload.products)
+        state.APIResponse.skip += action.payload.skip
+        state.APIResponse.total += action.payload.total
         state.status = "succeeded";
       })
       .addCase(getProductsByID.fulfilled, (state, action) => {

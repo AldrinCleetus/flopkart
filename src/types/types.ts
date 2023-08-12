@@ -27,10 +27,10 @@ export type DummyJSONResponse = {
 }
 
 export type ProductsFromAPIParams = {
-    searchValue: string
-    skip: number
-    findByCategory: boolean
-    category: CategoryType | ""
+    searchValue?: string
+    skip?: number
+    findByCategory?: boolean
+    category?: CategoryType | ""
 }
 
 export type CartItemsType = {
@@ -39,4 +39,14 @@ export type CartItemsType = {
         quantity: number
     }>
 }
-  
+
+export type ProductCartProps = {
+    product: Product
+}
+
+export type ProductsShelfProps = {
+    skipProducts? :number
+    category? :CategoryType | ''
+    showByCategory?: boolean
+}
+
