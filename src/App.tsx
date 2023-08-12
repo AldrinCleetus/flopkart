@@ -1,9 +1,9 @@
-import { Provider } from "react-redux";
-import Carousel from "./components/Carousel";
-import Categories from "./components/Categories";
-import NavBar from "./components/NavBar";
-import ProductsShelf from "./components/ProductsShelf";
-import Store from "./store/Store";
+import { Provider } from "react-redux"
+import Carousel from "./components/Carousel"
+import Categories from "./components/Categories"
+import NavBar from "./components/NavBar"
+import ProductsShelf from "./components/ProductsShelf"
+import Store from "./store/Store"
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <ProductsShelf></ProductsShelf>
       </div>
     </Provider>
-  );
+  )
 }
 
-export default App;
+export default App
