@@ -50,7 +50,7 @@ const ProductsShelf = ({
         category: category,
       })
     )
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="mt-6 mx-2 relative">

@@ -21,4 +21,5 @@ export const ProductCategories = [
     "lighting"
   ] as const
 
+
   export type CategoryType = typeof ProductCategories[number]
