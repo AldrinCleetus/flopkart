@@ -7,6 +7,7 @@ const Carousel = () => {
   return (
     <div className="w- mx-4 rounded-lg ">
       <Swiper
+        autoplay={true}
         spaceBetween={10}
         pagination={{
           clickable: true,

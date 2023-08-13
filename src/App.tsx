@@ -5,14 +5,12 @@ import LandingPage from "./pages/LandingPage"
 
 import { Routes, Route } from "react-router-dom"
 import CartPage from "./pages/CartPage"
-import Modal from "./components/Modal"
 
 function App() {
   return (
     <main className="">
       <div className=" dark:bg-stone-800 ">
         <div className="2xl:w-[1500px] flex flex-col mx-auto">
-          <Modal></Modal>
           <ToastContainer
             position="top-center"
             autoClose={1000}

@@ -13,7 +13,17 @@ const CartPage = () => {
           <h3 className="font-bold text-4xl mb-2">Shopping Cart</h3>
           <p className="text-text">{`You have ${cartItems.length} items in your cart`}</p>
         </div>
-        {/* Items */}
+
+        {cartItems.length <= 0 && (
+          <div className="mx-auto">
+            <img
+              className="w-auto"
+              src="https://www.reshot.com/preview-assets/illustrations/KBG392DTQW/empty-website-page-KBG392DTQW-w1600.jpg"
+              alt=""
+            />
+          </div>
+        )}
+
         <div>
           {cartItems.map((item, index) => {
             return (
@@ -28,7 +38,7 @@ const CartPage = () => {
       </div>
       <div className="lg:w-2/5">
         {/* credit card Details */}
-        <PaymentCheckOut></PaymentCheckOut>
+        {cartItems.length > 0 && <PaymentCheckOut></PaymentCheckOut>}
       </div>
     </div>
   )

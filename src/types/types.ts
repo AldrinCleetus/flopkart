@@ -55,3 +55,13 @@ export type CartProductProps = {
     productAmount: number
 }
 
+export type ModalProps ={
+    showModal : boolean
+    confirmationFunction: ()=> void
+}
+
+export type ModalState = {
+    showModal : boolean,
+    
+
+}

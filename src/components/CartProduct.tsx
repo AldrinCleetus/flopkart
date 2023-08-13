@@ -1,14 +1,21 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { CartProductProps } from "../types/types"
-import { AppDispatch } from "../store/Store"
+import { AppDispatch, RootState } from "../store/Store"
 import {
   incrementQuanity,
   decrementQuanity,
   removeProductFromCart,
 } from "../store/CartSlice"
+import { openModal } from "../store/modalSlice"
+import Modal from "./Modal"
 
 const CartProduct = ({ product, productAmount }: CartProductProps) => {
   const dispatch = useDispatch<AppDispatch>()
+  const { showModal } = useSelector((state: RootState) => state.modalSlice)
+
+  const removeProduct = () => {
+    dispatch(removeProductFromCart(product))
+  }
 
   return (
     <div className="flex flex-row max-h-32 md:max-h-56 gap-2 rounded-lg p-1   shadow-md">
@@ -79,7 +86,9 @@ const CartProduct = ({ product, productAmount }: CartProductProps) => {
         <div className="flex my-auto gap-2 md:gap-9 md:mr-4">
           <h3 className="font-bold">{"$" + product.price}</h3>
           <svg
-            onClick={() => dispatch(removeProductFromCart(product))}
+            onClick={() => {
+              dispatch(openModal(true))
+            }}
             className="w-6 h-6 text-gray-500 hover:text-red-500 cursor-pointer"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
@@ -96,6 +105,10 @@ const CartProduct = ({ product, productAmount }: CartProductProps) => {
           </svg>
         </div>
       </div>
+      <Modal
+        confirmationFunction={() => removeProduct()}
+        showModal={showModal}
+      ></Modal>
     </div>
   )
 }
