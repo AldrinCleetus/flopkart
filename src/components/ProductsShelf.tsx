@@ -65,7 +65,7 @@ const ProductsShelf = ({
         className="hidden md:block absolute bg-primary right-0 top-2/4 rounded-lg px-2 py-2  opacity-20 hover:opacity-100 transition-all ease-in-out"
       >
         <svg
-          className="w-4 h-4 text-gray-800 dark:text-white"
+          className="w-4 h-4 text-white"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -85,7 +85,7 @@ const ProductsShelf = ({
         className="hidden md:block absolute bg-primary left-0 top-2/4 rounded-lg px-2 py-2  opacity-20 hover:opacity-100 transition-all ease-in-out"
       >
         <svg
-          className="w-4 h-4 rotate-180 text-gray-800 dark:text-white"
+          className="w-4 h-4 rotate-180 text-white"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
