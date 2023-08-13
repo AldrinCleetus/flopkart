@@ -1,6 +1,7 @@
 import CartIcon from "../assets/icons/cart.svg"
 import { useSelector } from "react-redux"
 import { RootState } from "../store/Store"
+import { Link } from "react-router-dom"
 
 const NavBar = () => {
   const { cartItems } = useSelector((state: RootState) => state.cartSlice)
@@ -8,12 +9,7 @@ const NavBar = () => {
   return (
     <div className="h-28 mt-2 md:h-20 w-full md:flex-row flex justify-between flex-col text-gray-700 2xl:w-[1500px] 2xl:mx-auto">
       <div className="flex mx-6 md:mx-2 my-auto justify-between">
-        <div className="flex">
-          {/* <img
-            className="w-12 bg-primary bg-opacity-10 p-1 rounded-lg"
-            src={LogoIcon}
-            alt="TeeHee"
-          /> */}
+        <Link to={"/"} className="flex">
           <svg
             className="w-9 h-9 mx-2 text-primary my-auto"
             aria-hidden="true"
@@ -24,7 +20,7 @@ const NavBar = () => {
             <path d="M15.045.007 9.31 0a1.965 1.965 0 0 0-1.4.585L.58 7.979a2 2 0 0 0 0 2.805l6.573 6.631a1.956 1.956 0 0 0 1.4.585 1.965 1.965 0 0 0 1.4-.585l7.409-7.477A2 2 0 0 0 18 8.479v-5.5A2.972 2.972 0 0 0 15.045.007Zm-2.452 6.438a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
           </svg>
           <h3 className="my-auto text-4xl text-primary font-bold">Flopkart</h3>
-        </div>
+        </Link>
 
         {/* Sign/Signup */}
         <div className="md:hidden gap-4 mx-4 flex ">
@@ -127,22 +123,24 @@ const NavBar = () => {
           <div className="absolute top-5 left-2 bg-primary text-sm text-white px-2  rounded-full ">
             <p>{cartItems.length > 0 && cartItems.length}</p>
           </div>
-          <svg
-            className="w-7 h-7 text-primary my-auto"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 20"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"
-            />
-          </svg>
-          <p className="my-auto text-lg font-semibold">Cart</p>
+          <Link to={"/cart"} className="flex">
+            <svg
+              className="w-7 h-7 text-primary my-auto"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 20"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"
+              />
+            </svg>
+            <p className="my-auto text-lg font-semibold">Cart</p>
+          </Link>
         </div>
       </div>
     </div>

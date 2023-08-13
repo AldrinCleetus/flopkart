@@ -11,6 +11,7 @@ A simple Ecommerce Application with minimal features
 - [ ] Auth0 Authentication
 - [x] Inform user item was added or removed from cart
 - [x] Carousel Banner
+- [ ] Dark Mode
 
 ## Pages
 

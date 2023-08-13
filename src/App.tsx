@@ -1,17 +1,18 @@
-import { Provider } from "react-redux"
-import Carousel from "./components/Carousel"
-import Categories from "./components/Categories"
 import NavBar from "./components/NavBar"
-import ProductsShelf from "./components/ProductsShelf"
-import Store from "./store/Store"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import LandingPage from "./pages/LandingPage"
+
+import { Routes, Route } from "react-router-dom"
+import CartPage from "./pages/CartPage"
+import Modal from "./components/Modal"
 
 function App() {
   return (
-    <div className="">
-      <Provider store={Store}>
-        <div className="2xl:w-[1500px] flex flex-col mx-auto justify-center">
+    <main className="">
+      <div className=" dark:bg-stone-800 ">
+        <div className="2xl:w-[1500px] flex flex-col mx-auto">
+          <Modal></Modal>
           <ToastContainer
             position="top-center"
             autoClose={1000}
@@ -26,16 +27,13 @@ function App() {
             theme="light"
           />
           <NavBar></NavBar>
-          <Categories></Categories>
-          <Carousel></Carousel>
-          <ProductsShelf></ProductsShelf>
-          <ProductsShelf
-            category="laptops"
-            showByCategory={true}
-          ></ProductsShelf>
+          <Routes>
+            <Route path="/" element={<LandingPage></LandingPage>}></Route>
+            <Route path="/cart" element={<CartPage></CartPage>}></Route>
+          </Routes>
         </div>
-      </Provider>
-    </div>
+      </div>
+    </main>
   )
 }
 

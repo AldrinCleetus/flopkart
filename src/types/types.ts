@@ -50,3 +50,8 @@ export type ProductsShelfProps = {
     showByCategory?: boolean
 }
 
+export type CartProductProps = {
+    product: Product
+    productAmount: number
+}
+

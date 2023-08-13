@@ -54,7 +54,7 @@ const ProductsShelf = ({
 
   return (
     <div className="mt-6 mx-2 relative">
-      <h3 className="text-2xl font-bold flex gap-2 text-text border-b-4 pb-2 border-primary">
+      <h3 className="text-2xl font-bold flex gap-2 text-text dark:text-white border-b-4 pb-2 border-primary">
         Best Selling{" "}
         <p className="text-primary">
           {showByCategory ? category + `!` : "Items!"}
