@@ -1,8 +1,28 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../store/Store"
+import Fuse from "fuse.js"
+import { useEffect, useState } from "react"
+import { Product } from "../types/types"
+import { Link } from "react-router-dom"
 
 const SearchBar = () => {
-  const { cartItems } = useSelector((state: RootState) => state.cartSlice)
+  const { products } = useSelector(
+    (state: RootState) => state.productsFromAPI.APIResponse
+  )
+
+  //   const { cartItems } = useSelector((state: RootState) => state.cartSlice)
+
+  const [searchResults, setsearchResults] = useState<Array<Product>>()
+  const [searchQuery, setsearchQuery] = useState("")
+
+  const fuse = new Fuse(products, {
+    keys: ["title", "description", "category"],
+  })
+
+  useEffect(() => {
+    const matchingProducts = fuse.search(searchQuery).map((el) => el.item)
+    setsearchResults(matchingProducts)
+  }, [products, searchQuery]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="my-auto relative md:w-2/5 flex bg-primary bg-opacity-10 mx-6 px-2 py-2 rounded-lg font-semibold">
@@ -40,32 +60,44 @@ const SearchBar = () => {
         </g>
       </svg>
       <input
+        value={searchQuery}
+        onChange={(e) => setsearchQuery(e.target.value)}
         className="px-2 w-full focus:outline-none bg-white bg-opacity-0 "
         type="text"
         placeholder="Find anything you are looking for!"
         name=""
         id=""
       />
-      {/* flex later */}
-      <div className="absolute  w-full hidden flex-col gap-2 rounded-lg py-2 left-0 transition-all ease-in-out bg-white z-10 top-12">
-        {cartItems.map((item, index) => {
-          return (
-            <div key={index} className="w-full">
-              <div className="flex gap-2 px-2 hover:bg-slate-200 cursor-pointer">
-                <img
-                  className="w-24 rounded-lg"
-                  src={item.product.thumbnail}
-                  alt=""
-                />
-                <div>
-                  <h3>{item.product.title}</h3>
-                  <p>{item.product.brand}</p>
-                  <p>{"$" + item.product.price}</p>
-                </div>
+      <div
+        className={`${
+          searchQuery === "" ? "hidden" : ""
+        } absolute  w-full flex flex-col gap-2 rounded-lg py-2 left-0 transition-all ease-in-out bg-white z-10 top-12`}
+      >
+        {searchResults &&
+          searchResults.splice(0, 5).map((product, index) => {
+            return (
+              <div
+                onClick={() => setsearchQuery("")}
+                key={index}
+                className="w-full"
+              >
+                <Link to={`/product/${product.id}`}>
+                  <div className="flex gap-2 px-2 hover:bg-slate-200 cursor-pointer">
+                    <img
+                      className="w-24 max-h-24 object-cover rounded-lg"
+                      src={product.thumbnail}
+                      alt=""
+                    />
+                    <div>
+                      <h3>{product.title}</h3>
+                      <p>{product.brand}</p>
+                      <p>{"$" + product.price}</p>
+                    </div>
+                  </div>
+                </Link>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
       </div>
     </div>
   )

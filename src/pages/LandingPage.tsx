@@ -7,8 +7,23 @@ const LandingPage = () => {
     <>
       <Categories></Categories>
       <Carousel></Carousel>
-      <ProductsShelf></ProductsShelf>
+      {/* <ProductsShelf></ProductsShelf> */}
+      <ProductsShelf
+        category="smartphones"
+        showByCategory={true}
+      ></ProductsShelf>
+      <ProductsShelf category="skincare" showByCategory={true}></ProductsShelf>
       <ProductsShelf category="laptops" showByCategory={true}></ProductsShelf>
+      <ProductsShelf category="groceries" showByCategory={true}></ProductsShelf>
+      <ProductsShelf
+        category="home-decoration"
+        showByCategory={true}
+      ></ProductsShelf>
+      <ProductsShelf category="groceries" showByCategory={true}></ProductsShelf>
+      <ProductsShelf category="groceries" showByCategory={true}></ProductsShelf>
+      <ProductsShelf category="groceries" showByCategory={true}></ProductsShelf>
+      <ProductsShelf category="groceries" showByCategory={true}></ProductsShelf>
+      <ProductsShelf category="groceries" showByCategory={true}></ProductsShelf>
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import axios from "axios";
 import { DummyJSONResponse, Product, ProductsFromAPIParams, UsersState } from "../types/types";
+import { mergeProductsArrayAndRemoveDuplicates } from "../utils/helper";
 
 
 
@@ -108,10 +109,20 @@ const productsSlice = createSlice({
     builder
       .addCase(getProductsFromAPI.fulfilled, (state, action) => {
         
-        state.APIResponse.products = state.APIResponse.products.concat(action.payload.products)
+        // Recipe for disaster
+        // if(state.APIResponse.products.length < 30){
+        //   state.APIResponse.products = state.APIResponse.products.concat(action.payload.products)
+        // }
+        // else{
+        //   state.APIResponse.products = action.payload.products
+        // }
+
+        state.APIResponse.products = mergeProductsArrayAndRemoveDuplicates(state.APIResponse.products,action.payload.products)
+        
         state.APIResponse.skip += action.payload.skip
         state.APIResponse.total += action.payload.total
         state.status = "succeeded";
+        console.log(state.APIResponse.products)
       })
       .addCase(getProductsByID.fulfilled, (state, action) => {
 
