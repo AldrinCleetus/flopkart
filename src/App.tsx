@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage"
 
 import { Routes, Route } from "react-router-dom"
 import CartPage from "./pages/CartPage"
+import ProductPage from "./pages/ProductPage"
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage></LandingPage>}></Route>
             <Route path="/cart" element={<CartPage></CartPage>}></Route>
+            <Route
+              path="/product/:productID"
+              element={<ProductPage></ProductPage>}
+            ></Route>
           </Routes>
         </div>
       </div>

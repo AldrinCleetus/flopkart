@@ -2,6 +2,9 @@ import { PayloadAction, createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/
 import axios from "axios";
 import { DummyJSONResponse, Product, ProductsFromAPIParams, UsersState } from "../types/types";
 
+
+
+
 const initialState: UsersState = {
   APIResponse: {
     products: [],
@@ -111,7 +114,17 @@ const productsSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(getProductsByID.fulfilled, (state, action) => {
-        state.APIResponse.products.push(action.payload)
+
+        const product = state.APIResponse.products.filter(
+          (prod) => prod.id === Number(action.payload.id)
+        )
+
+        // only add if it doesnt already exist
+        if(product.length === 0){
+          state.APIResponse.products.push(action.payload)
+        }
+
+        
         state.status = "succeeded";
       })
 

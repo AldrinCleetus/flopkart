@@ -1,7 +1,11 @@
+import { useSelector } from "react-redux"
+import { RootState } from "../store/Store"
+
 const SearchBar = () => {
+  const { cartItems } = useSelector((state: RootState) => state.cartSlice)
+
   return (
-    <div className="my-auto md:w-2/5 flex bg-primary bg-opacity-10 mx-6 px-2 py-2 rounded-lg font-semibold">
-      {/* <img className="w-8 " src={SearchIcon} alt="" /> */}
+    <div className="my-auto relative md:w-2/5 flex bg-primary bg-opacity-10 mx-6 px-2 py-2 rounded-lg font-semibold">
       <svg
         className="w-8 h-8 text-primary"
         xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +46,27 @@ const SearchBar = () => {
         name=""
         id=""
       />
+      {/* flex later */}
+      <div className="absolute  w-full hidden flex-col gap-2 rounded-lg py-2 left-0 transition-all ease-in-out bg-white z-10 top-12">
+        {cartItems.map((item, index) => {
+          return (
+            <div key={index} className="w-full">
+              <div className="flex gap-2 px-2 hover:bg-slate-200 cursor-pointer">
+                <img
+                  className="w-24 rounded-lg"
+                  src={item.product.thumbnail}
+                  alt=""
+                />
+                <div>
+                  <h3>{item.product.title}</h3>
+                  <p>{item.product.brand}</p>
+                  <p>{"$" + item.product.price}</p>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

@@ -52,7 +52,8 @@ export type ProductsShelfProps = {
 
 export type CartProductProps = {
     product: Product
-    productAmount: number
+    productAmount: number,
+    showOptions: false
 }
 
 export type ModalProps ={
@@ -62,6 +63,4 @@ export type ModalProps ={
 
 export type ModalState = {
     showModal : boolean,
-    
-
 }

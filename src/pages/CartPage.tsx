@@ -31,6 +31,7 @@ const CartPage = () => {
                 key={index}
                 product={item.product}
                 productAmount={item.quantity}
+                showOptions={true}
               ></CartProduct>
             )
           })}

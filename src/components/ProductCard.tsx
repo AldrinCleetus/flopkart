@@ -3,6 +3,7 @@ import { ProductCartProps } from "../types/types"
 import { AppDispatch, RootState } from "../store/Store"
 import { addProductToCart, removeProductFromCart } from "../store/CartSlice"
 import { toast } from "react-toastify"
+import { Link } from "react-router-dom"
 
 const ProductCard = ({ product }: ProductCartProps) => {
   const dispatch = useDispatch<AppDispatch>()
@@ -38,6 +39,11 @@ const ProductCard = ({ product }: ProductCartProps) => {
     }
   }
 
+  // Original Price = Discounted Price / (1 – Discount Percentage)
+  const originalPrice = Math.floor(
+    product.price / (1 - product.discountPercentage / 100)
+  )
+
   return (
     <div className="w-36 md:w-72 max-h-72 flex flex-col md:max-h-none bg- bg-opacity-5 shadow-md outline-primary outline-2 hover:outline rounded-lg flex-shrink-0">
       <div className="my-auto">
@@ -48,12 +54,12 @@ const ProductCard = ({ product }: ProductCartProps) => {
         />
       </div>
       <div className="px-5 pb-5 mt-auto">
-        <a href="#">
+        <Link to={`/product/${product.id}`}>
           <h5 className="text-xm font-semibold tracking-tight text-gray-700 ">
             {product.title}
           </h5>
           <p className="text-sm text-text font-light">{product.brand}</p>
-        </a>
+        </Link>
 
         <div className="flex items-center justify-between md:mt-4">
           <div className="flex flex-col md:flex-row md:gap-2">
@@ -61,7 +67,7 @@ const ProductCard = ({ product }: ProductCartProps) => {
               {`$` + product.price}
             </span>
             <span className="text-sm my-auto  text-gray-900 line-through">
-              {`$` + (Number(product.price) + 200)}
+              {`$` + originalPrice}
             </span>
             <span className="text-sm my-auto  font-bold text-primary ">
               {product.discountPercentage + `% off`}
