@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import CartPage from "./pages/CartPage";
 import ProductPage from "./pages/ProductPage";
 import WishListPage from "./pages/WishListPage";
+import AllItemsPage from "./pages/AllItemsPage";
 
 function App() {
   return (
@@ -30,6 +31,12 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage></LandingPage>}></Route>
             <Route path="/cart" element={<CartPage></CartPage>}></Route>
+            <Route
+              path="/all/:category"
+              element={<AllItemsPage></AllItemsPage>}
+            ></Route>
+            <Route path="/all" element={<AllItemsPage></AllItemsPage>}></Route>
+
             <Route
               path="/wishlist"
               element={<WishListPage></WishListPage>}

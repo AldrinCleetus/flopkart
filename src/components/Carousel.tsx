@@ -21,7 +21,6 @@ const Carousel = () => {
           enabled: false,
           draggable: false,
         }}
-        onSlideChange={() => console.log("slide change")}
       >
         <SwiperSlide>
           <div className="h-[100px] sm:h-[200px] md:h-[300px] lg:h-[500px] rounded-lg  flex">

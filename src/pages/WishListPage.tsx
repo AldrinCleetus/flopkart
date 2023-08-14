@@ -6,7 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const WishListPage = () => {
   const { wishListItems } = useSelector((state: RootState) => state.cartSlice);
 
-  const { isAuthenticated } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
 
   if (!isAuthenticated) {
     return (
@@ -24,7 +24,9 @@ const WishListPage = () => {
     <div className="mx-2 flex flex-col lg:flex-row  gap-2">
       <div className="w-full">
         <div className="p-2">
-          <h3 className="font-bold text-4xl mb-2">WishList</h3>
+          <h3 className="font-bold text-4xl mb-2">
+            {user?.nickname + "'s Wishlist"}
+          </h3>
           <p className="text-text">{`You have ${wishListItems.length} items in your wishlist    `}</p>
         </div>
 

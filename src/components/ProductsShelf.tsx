@@ -1,46 +1,48 @@
-import { useEffect, useRef, useState } from "react"
-import ProductCard from "./ProductCard"
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../store/Store"
-import { getProductsFromAPI } from "../store/ProductsSlice"
-import { ProductsShelfProps } from "../types/types"
+import { useEffect, useRef, useState } from "react";
+import ProductCard from "./ProductCard";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/Store";
+import { getProductsFromAPI } from "../store/ProductsSlice";
+import { ProductsShelfProps } from "../types/types";
+import { applyMiddleware } from "@reduxjs/toolkit";
 
 const ProductsShelf = ({
   skipProducts = 0,
   category = "",
   showByCategory = false,
+  viewAll = false,
 }: ProductsShelfProps) => {
-  const [scrollPosition, setScrollPosition] = useState(0)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const { APIResponse, status } = useSelector(
     (state: RootState) => state.productsFromAPI
-  )
+  );
 
   const handleScrollClick = (direction: "left" | "right") => {
-    const container = containerRef.current
+    const container = containerRef.current;
 
     if (container) {
       if (direction === "left") {
-        setScrollPosition(Math.max(scrollPosition - 400, 0))
+        setScrollPosition(Math.max(scrollPosition - 400, 0));
       } else if (direction === "right") {
         setScrollPosition(
           Math.min(scrollPosition + 400, container.scrollWidth * 0.5)
-        )
+        );
       }
     }
-  }
+  };
 
   useEffect(() => {
-    const container = containerRef.current
+    const container = containerRef.current;
     if (container) {
       container.scrollTo({
         left: scrollPosition,
         behavior: "smooth",
-      })
+      });
     }
-  }, [scrollPosition])
+  }, [scrollPosition]);
 
   useEffect(() => {
     dispatch(
@@ -49,11 +51,11 @@ const ProductsShelf = ({
         findByCategory: showByCategory,
         category: category,
       })
-    )
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    );
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="mt-6 mx-2 relative">
+    <div className="mt-6 mx-2 relative ">
       <h3 className="text-2xl font-bold flex gap-2 text-text dark:text-white border-b-4 pb-2 border-primary">
         Best Selling{" "}
         <p className="text-primary">
@@ -103,19 +105,21 @@ const ProductsShelf = ({
 
       <div
         ref={containerRef}
-        className="flex flex-wrap md:flex-nowrap gap-4 md:justify-start md:px-2 md:flex-row my-8 md:gap-6 overflow-scroll no-scrollbar  py-2 justify-around"
+        className={`flex flex-wrap ${
+          !viewAll ? "md:flex-nowrap md:justify-start" : "md:justify-evenly"
+        } gap-4 md:px-2 md:flex-row my-8 md:gap-6 overflow-scroll no-scrollbar  py-2 justify-around mx-auto"`}
       >
         {status === "succeeded" &&
           APIResponse.products.map((product, index) => {
             if (showByCategory && product.category === category) {
-              return <ProductCard key={index} product={product}></ProductCard>
+              return <ProductCard key={index} product={product}></ProductCard>;
             } else if (!showByCategory) {
-              return <ProductCard key={index} product={product}></ProductCard>
+              return <ProductCard key={index} product={product}></ProductCard>;
             }
           })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductsShelf
+export default ProductsShelf;

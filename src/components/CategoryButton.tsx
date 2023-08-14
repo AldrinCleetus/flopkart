@@ -1,15 +1,20 @@
-import { CategoryType } from "../utils/contants"
+import { Link } from "react-router-dom";
+import { CategoryType } from "../utils/contants";
 
 type CategoryButtonProps = {
-  categoryName: CategoryType
-}
+  categoryName: CategoryType;
+};
 
 const CategoryButton = ({ categoryName }: CategoryButtonProps) => {
   return (
     <div className="bg-primary my-auto rounded-full text-white text-center cursor-pointer transition-all hover:scale-105">
-      <p className="mx-4 my-2 text-sm whitespace-nowrap">{categoryName}</p>
+      <Link to={`/all/${categoryName}`}>
+        <p className="mx-4 my-2 text-sm lg:text-lg whitespace-nowrap">
+          {categoryName}
+        </p>
+      </Link>
     </div>
-  )
-}
+  );
+};
 
-export default CategoryButton
+export default CategoryButton;

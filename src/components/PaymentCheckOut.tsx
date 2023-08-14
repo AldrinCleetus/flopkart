@@ -1,25 +1,55 @@
-import { useSelector } from "react-redux"
-import { RootState } from "../store/Store"
-import { useEffect, useState } from "react"
-import { PaymentOptions, PaymentType } from "../utils/contants"
+import { useSelector } from "react-redux";
+import { RootState } from "../store/Store";
+import { useEffect, useState } from "react";
+import { PaymentOptions, PaymentType } from "../utils/contants";
+import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
 
 const PaymentCheckOut = () => {
-  const { cartItems } = useSelector((state: RootState) => state.cartSlice)
-  const [totalAmount, settotalAmount] = useState(0)
+  const { cartItems } = useSelector((state: RootState) => state.cartSlice);
+  const [totalAmount, settotalAmount] = useState(0);
   const [selectedPaymentOption, setselectedPaymentOption] =
-    useState<PaymentType>("")
-  const shippingAmount = 42
+    useState<PaymentType>("");
+
+  const { isAuthenticated } = useAuth0();
+  const shippingAmount = 42;
+
+  const handleCheckOut = () => {
+    if (!isAuthenticated) {
+      toast.info(`Sign in to Checkout`, {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.success(`Payment feature work in Progress`, {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
 
   useEffect(() => {
     //calculate total
-    settotalAmount(0)
+    settotalAmount(0);
 
     cartItems.map((item) => {
       settotalAmount((prev) => {
-        return prev + item.product.price * item.quantity
-      })
-    })
-  }, [cartItems])
+        return prev + item.product.price * item.quantity;
+      });
+    });
+  }, [cartItems]);
 
   return (
     <div className="p-5 rounded-lg bg-primary text-white">
@@ -43,7 +73,7 @@ const PaymentCheckOut = () => {
                 alt={option.paymentType}
               />
             </div>
-          )
+          );
         })}
       </div>
       <form className="flex flex-wrap gap-3 w-full ">
@@ -156,7 +186,10 @@ const PaymentCheckOut = () => {
           <p>Total (Tax incl.)</p>
           <p>{"$" + (totalAmount + shippingAmount)}</p>
         </div>
-        <button className="flex justify-between p-5 rounded-lg bg-green-400 text-white font-bold">
+        <button
+          onClick={handleCheckOut}
+          className="flex justify-between p-5 rounded-lg bg-green-400 text-white font-bold"
+        >
           <p>{"$" + (totalAmount + shippingAmount)}</p>{" "}
           <div className="flex gap-2">
             <p>Checkout</p>
@@ -179,7 +212,7 @@ const PaymentCheckOut = () => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PaymentCheckOut
+export default PaymentCheckOut;

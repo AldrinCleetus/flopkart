@@ -10,7 +10,7 @@ export type Product = {
   title: string;
   description: string;
   brand: string;
-  category: string;
+  category: CategoryType;
   discountPercentage: number;
   images: Array<string>;
   price: number;
@@ -49,6 +49,7 @@ export type ProductsShelfProps = {
   skipProducts?: number;
   category?: CategoryType | "";
   showByCategory?: boolean;
+  viewAll?: boolean;
 };
 
 export type CartProductProps = {
@@ -64,4 +65,13 @@ export type ModalProps = {
 
 export type ModalState = {
   showModal: boolean;
+};
+
+export type optionsForCategoriesType = {
+  category: CategoryType;
+  options: Array<string>;
+};
+
+export type ProductFillerProps = {
+  category: CategoryType | "";
 };

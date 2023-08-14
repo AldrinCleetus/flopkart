@@ -6,6 +6,8 @@ import { getProductsByID } from "../store/ProductsSlice";
 import Loading from "../components/Loading";
 import ProductRating from "../components/ProductRating";
 import { addProductToCart, addProductToWishList } from "../store/CartSlice";
+import ProductFiller from "../components/ProductFiller";
+import { CategoryType } from "../utils/contants";
 
 const ProductPage = () => {
   const { productID } = useParams();
@@ -46,7 +48,7 @@ const ProductPage = () => {
 
   return (
     <div className=" flex flex-col lg:flex-row gap-2">
-      <div className="p-2 mx-auto md:mx-0   lg:min-w-[400px] flex flex-col ">
+      <div className="p-2 mx-auto md:mx-0  lg:min-w-[400px] flex flex-col ">
         <div className="flex flex-col mx-auto ">
           <img
             className="rounded-md object-contain max-h-[400px]"
@@ -70,12 +72,15 @@ const ProductPage = () => {
       </div>
 
       {/* Info */}
-      <div className="w-full flex flex-col gap-3 rounded-lg mx-2 p-2">
+      <div className="w-full flex flex-col gap-7 rounded-lg mx-2 p-2">
         <div>
-          <h2 className="text-2xl font-bold">{product[0].title}</h2>
-          <h4 className="text-text font-light">{product[0].brand}</h4>
+          <h2 className="text-2xl lg:text-3xl font-bold">{product[0].title}</h2>
+          <h4 className="text-text font-light lg:text-2xl">
+            {product[0].brand}
+          </h4>
         </div>
         <ProductRating rating={product[0].rating}></ProductRating>
+        <ProductFiller category={product[0].category}></ProductFiller>
 
         <div className="flex gap-2">
           <h2 className="text-2xl font-bold">{`$${product[0].price}`}</h2>
@@ -86,7 +91,7 @@ const ProductPage = () => {
             {`${product[0].discountPercentage}% off`}
           </span>
         </div>
-        <p className="text-text">{product[0].description}</p>
+        <p className="text-text lg:text-2xl">{product[0].description}</p>
         <div className="flex gap-3">
           <button
             onClick={() => {
@@ -94,14 +99,14 @@ const ProductPage = () => {
                 dispatch(addProductToCart(product[0]));
               }
             }}
-            className={`"flex  justify-between p-2 rounded-lg ${
+            className={`"flex lg:text-2xl justify-between p-2 rounded-lg ${
               !isInCart ? "bg-primary" : "bg-text"
             } text-white font-bold"`}
           >
             <div className="flex gap-2">
               <p>{!isInCart ? "Add to Cart" : "In Cart"}</p>
               <svg
-                className="w-6 h-6 text-white"
+                className="w-6 h-6 my-auto text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -123,12 +128,12 @@ const ProductPage = () => {
                 dispatch(addProductToWishList(product[0]));
               }
             }}
-            className="flex  justify-between mr-auto p-2 rounded-lg bg-primary text-white font-bold"
+            className="flex lg:text-2xl justify-between mr-auto p-2 rounded-lg bg-primary text-white font-"
           >
             <div className="flex gap-2">
               <p>{"Add to wishlist"}</p>
               <svg
-                className="w-6 h-6 text-white"
+                className="w-6 h-6 my-auto text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
