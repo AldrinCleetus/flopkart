@@ -1,10 +1,10 @@
-import { useDispatch } from "react-redux"
-import { ModalProps } from "../types/types"
-import { AppDispatch } from "../store/Store"
-import { closeModal } from "../store/modalSlice"
+import { useDispatch } from "react-redux";
+import { ModalProps } from "../types/types";
+import { AppDispatch } from "../store/Store";
+import { closeModal } from "../store/modalSlice";
 
 const Modal = ({ showModal, confirmationFunction }: ModalProps) => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <div
@@ -13,9 +13,10 @@ const Modal = ({ showModal, confirmationFunction }: ModalProps) => {
         showModal ? "" : "hidden"
       } fixed w-screen z-50  p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
     >
-      <div className="relative w-full max-w-md max-h-full top-1/2 mx-auto">
+      <div className="relative w-full max-w-md max-h-full top-56 border-4 mx-auto">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <button
+            onClick={() => dispatch(closeModal())}
             type="button"
             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
             data-modal-hide="popup-modal"
@@ -39,7 +40,7 @@ const Modal = ({ showModal, confirmationFunction }: ModalProps) => {
           </button>
           <div className="p-6 text-center">
             <svg
-              className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+              className="mx-auto mb-4 text-black w-12 h-12 dark:text-gray-200"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -53,13 +54,13 @@ const Modal = ({ showModal, confirmationFunction }: ModalProps) => {
                 d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
               />
             </svg>
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+            <h3 className="mb-5 text-lg font-normal text-black dark:text-gray-400">
               Are you sure you want to delete this product?
             </h3>
             <button
               onClick={() => {
-                confirmationFunction()
-                dispatch(closeModal())
+                confirmationFunction();
+                dispatch(closeModal());
               }}
               data-modal-hide="popup-modal"
               type="button"
@@ -79,7 +80,7 @@ const Modal = ({ showModal, confirmationFunction }: ModalProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

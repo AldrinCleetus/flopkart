@@ -1,23 +1,27 @@
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Pagination } from "swiper/modules"
-import "swiper/css"
-import "swiper/css/pagination"
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+// Direct React component imports
 
 const Carousel = () => {
   return (
     <div className="w- mx-4 rounded-lg ">
       <Swiper
-        autoplay={true}
+        autoplay={{
+          delay: 2000,
+        }}
         spaceBetween={10}
         pagination={{
           clickable: true,
         }}
-        modules={[Pagination]}
+        modules={[Pagination, Autoplay]}
         className="mySwiper"
         scrollbar={{
           enabled: false,
           draggable: false,
         }}
+        onSlideChange={() => console.log("slide change")}
       >
         <SwiperSlide>
           <div className="h-[100px] sm:h-[200px] md:h-[300px] lg:h-[500px] rounded-lg  flex">
@@ -37,9 +41,18 @@ const Carousel = () => {
             />
           </div>
         </SwiperSlide>
+        <SwiperSlide>
+          <div className="h-[100px] sm:h-[200px] md:h-[300px] lg:h-[500px]  flex">
+            <img
+              className="transform rounded-lg transition-all ease-in-out object-cover w-full"
+              src="https://image.freepik.com/free-vector/modern-black-friday-sale-website-banner_1361-2905.jpg"
+              alt=""
+            />
+          </div>
+        </SwiperSlide>
       </Swiper>
     </div>
-  )
-}
+  );
+};
 
-export default Carousel
+export default Carousel;

@@ -1,9 +1,14 @@
-import { useAuth0 } from "@auth0/auth0-react"
-import { useState } from "react"
+import { useAuth0 } from "@auth0/auth0-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const UserProfile = () => {
-  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0()
-  const [showDropDown, setshowDropDown] = useState(false)
+  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+  const [showDropDown, setshowDropDown] = useState(false);
+
+  const toggleDropDown = () => {
+    setshowDropDown((prev) => !prev);
+  };
 
   if (!isAuthenticated) {
     return (
@@ -30,12 +35,12 @@ const UserProfile = () => {
           SignIn/SignUp
         </p>
       </div>
-    )
+    );
   } else {
     return (
       <div className="flex gap-1 my-auto cursor-pointer relative">
         <img
-          onClick={() => setshowDropDown((prev) => !prev)}
+          onClick={toggleDropDown}
           className="w-10 h-10 rounded-lg"
           src={user?.picture}
           alt="user"
@@ -51,12 +56,13 @@ const UserProfile = () => {
             aria-labelledby="multiLevelDropdownButton"
           >
             <li>
-              <a
-                href="#"
+              <Link
+                onClick={toggleDropDown}
+                to={"/wishlist"}
                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
               >
                 WishList
-              </a>
+              </Link>
             </li>
             <li>
               <button
@@ -126,14 +132,7 @@ const UserProfile = () => {
                 </ul>
               </div>
             </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Earnings
-              </a>
-            </li>
+
             <li>
               <a
                 onClick={() => logout()}
@@ -146,8 +145,8 @@ const UserProfile = () => {
           </ul>
         </div>
       </div>
-    )
+    );
   }
-}
+};
 
-export default UserProfile
+export default UserProfile;

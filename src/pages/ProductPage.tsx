@@ -1,40 +1,48 @@
-import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../store/Store"
-import { getProductsByID } from "../store/ProductsSlice"
-import Loading from "../components/Loading"
-import ProductRating from "../components/ProductRating"
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/Store";
+import { getProductsByID } from "../store/ProductsSlice";
+import Loading from "../components/Loading";
+import ProductRating from "../components/ProductRating";
+import { addProductToCart, addProductToWishList } from "../store/CartSlice";
 
 const ProductPage = () => {
-  const { productID } = useParams()
-  const [selectedImage, setselectedImage] = useState(0)
+  const { productID } = useParams();
+  const [selectedImage, setselectedImage] = useState(0);
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const { APIResponse, status } = useSelector(
     (state: RootState) => state.productsFromAPI
-  )
+  );
+
+  const { cartItems, wishListItems } = useSelector(
+    (state: RootState) => state.cartSlice
+  );
 
   const product = APIResponse.products.filter(
     (prod) => prod.id === Number(productID)
-  )
+  );
 
   useEffect(() => {
-    console.log("hhu")
-    dispatch(getProductsByID(Number(productID)))
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    console.log("hhu");
+    dispatch(getProductsByID(Number(productID)));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (product.length === 0) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   if (status === "pending") {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   const originalPrice = Math.floor(
     product[0].price / (1 - product[0].discountPercentage / 100)
-  )
+  );
+
+  const isInCart = cartItems.find((prod) => prod.product.id === product[0].id);
+  const isInWishList = wishListItems.find((prod) => prod.id === product[0].id);
 
   return (
     <div className=" flex flex-col lg:flex-row gap-2">
@@ -55,7 +63,7 @@ const ProductPage = () => {
                   src={image}
                   alt=""
                 />
-              )
+              );
             })}
           </div>
         </div>
@@ -79,29 +87,67 @@ const ProductPage = () => {
           </span>
         </div>
         <p className="text-text">{product[0].description}</p>
-        <button className="flex  justify-between mr-auto p-2 rounded-lg bg-primary text-white font-bold">
-          <div className="flex gap-2">
-            <p>Add to Cart</p>
-            <svg
-              className="w-6 h-6 text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-          </div>
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={() => {
+              if (!isInCart) {
+                dispatch(addProductToCart(product[0]));
+              }
+            }}
+            className={`"flex  justify-between p-2 rounded-lg ${
+              !isInCart ? "bg-primary" : "bg-text"
+            } text-white font-bold"`}
+          >
+            <div className="flex gap-2">
+              <p>{!isInCart ? "Add to Cart" : "In Cart"}</p>
+              <svg
+                className="w-6 h-6 text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 10"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M1 5h12m0 0L9 1m4 4L9 9"
+                />
+              </svg>
+            </div>
+          </button>
+          <button
+            onClick={() => {
+              if (!isInWishList) {
+                dispatch(addProductToWishList(product[0]));
+              }
+            }}
+            className="flex  justify-between mr-auto p-2 rounded-lg bg-primary text-white font-bold"
+          >
+            <div className="flex gap-2">
+              <p>{"Add to wishlist"}</p>
+              <svg
+                className="w-6 h-6 text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 10"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M1 5h12m0 0L9 1m4 4L9 9"
+                />
+              </svg>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductPage
+export default ProductPage;

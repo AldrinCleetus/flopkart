@@ -1,11 +1,12 @@
-import NavBar from "./components/NavBar"
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import LandingPage from "./pages/LandingPage"
+import NavBar from "./components/NavBar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LandingPage from "./pages/LandingPage";
 
-import { Routes, Route } from "react-router-dom"
-import CartPage from "./pages/CartPage"
-import ProductPage from "./pages/ProductPage"
+import { Routes, Route } from "react-router-dom";
+import CartPage from "./pages/CartPage";
+import ProductPage from "./pages/ProductPage";
+import WishListPage from "./pages/WishListPage";
 
 function App() {
   return (
@@ -30,6 +31,11 @@ function App() {
             <Route path="/" element={<LandingPage></LandingPage>}></Route>
             <Route path="/cart" element={<CartPage></CartPage>}></Route>
             <Route
+              path="/wishlist"
+              element={<WishListPage></WishListPage>}
+            ></Route>
+
+            <Route
               path="/product/:productID"
               element={<ProductPage></ProductPage>}
             ></Route>
@@ -37,7 +43,7 @@ function App() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;
