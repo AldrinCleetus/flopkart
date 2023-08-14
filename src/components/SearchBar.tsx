@@ -1,31 +1,31 @@
-import { useSelector } from "react-redux"
-import { RootState } from "../store/Store"
-import Fuse from "fuse.js"
-import { useEffect, useState } from "react"
-import { Product } from "../types/types"
-import { Link } from "react-router-dom"
+import { useSelector } from "react-redux";
+import { RootState } from "../store/Store";
+import Fuse from "fuse.js";
+import { useEffect, useState } from "react";
+import { Product } from "../types/types";
+import { Link } from "react-router-dom";
 
 const SearchBar = () => {
   const { products } = useSelector(
     (state: RootState) => state.productsFromAPI.APIResponse
-  )
+  );
 
   //   const { cartItems } = useSelector((state: RootState) => state.cartSlice)
 
-  const [searchResults, setsearchResults] = useState<Array<Product>>()
-  const [searchQuery, setsearchQuery] = useState("")
+  const [searchResults, setsearchResults] = useState<Array<Product>>();
+  const [searchQuery, setsearchQuery] = useState("");
 
   const fuse = new Fuse(products, {
     keys: ["title", "description", "category"],
-  })
+  });
 
   useEffect(() => {
-    const matchingProducts = fuse.search(searchQuery).map((el) => el.item)
-    setsearchResults(matchingProducts)
-  }, [products, searchQuery]) // eslint-disable-line react-hooks/exhaustive-deps
+    const matchingProducts = fuse.search(searchQuery).map((el) => el.item);
+    setsearchResults(matchingProducts);
+  }, [products, searchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="my-auto relative md:w-2/5 flex bg-primary bg-opacity-10 mx-6 px-2 py-2 rounded-lg font-semibold">
+    <div className="my-auto relative md:w-2/5 flex bg-black bg-opacity-10 mx-6 px-2 py-2 rounded-lg font-semibold">
       <svg
         className="w-8 h-8 text-primary"
         xmlns="http://www.w3.org/2000/svg"
@@ -96,11 +96,11 @@ const SearchBar = () => {
                   </div>
                 </Link>
               </div>
-            )
+            );
           })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

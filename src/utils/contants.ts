@@ -1,3 +1,5 @@
+import { optionsForCategoriesType } from "../types/types";
+
 export const ProductCategories = [
   "smartphones",
   "laptops",
@@ -53,5 +55,32 @@ export const optionsForCategories: Array<optionsForCategoriesType> = [
   {
     category: "laptops",
     options: ["Intel - i3", "Intel - i5", "Intel - i7"],
+  },
+];
+
+export const themes = [
+  {
+    name: "ocean",
+    color: "#008ECC",
+  },
+  {
+    name: "void",
+    color: "#292929",
+  },
+  {
+    name: "barbie",
+    color: "#FA198B",
+  },
+  {
+    name: "crimson",
+    color: "#d12525",
+  },
+  {
+    name: "orange",
+    color: "#F85E00",
+  },
+  {
+    name: "sun",
+    color: "#FDCA40",
   },
 ];
