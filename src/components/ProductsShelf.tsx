@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/Store";
 import { getProductsFromAPI } from "../store/ProductsSlice";
 import { ProductsShelfProps } from "../types/types";
-import { applyMiddleware } from "@reduxjs/toolkit";
 
 const ProductsShelf = ({
   skipProducts = 0,

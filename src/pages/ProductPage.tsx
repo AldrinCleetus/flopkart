@@ -7,7 +7,6 @@ import Loading from "../components/Loading";
 import ProductRating from "../components/ProductRating";
 import { addProductToCart, addProductToWishList } from "../store/CartSlice";
 import ProductFiller from "../components/ProductFiller";
-import { CategoryType } from "../utils/contants";
 
 const ProductPage = () => {
   const { productID } = useParams();
